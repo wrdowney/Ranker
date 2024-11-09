@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct ElementModel: Identifiable, Codable {
+struct ElementModel: Identifiable {
     var id: UUID = UUID()
     let title: String
-    let image: String
+    let image: Image
+    private(set) var score: Int = 0
 }
