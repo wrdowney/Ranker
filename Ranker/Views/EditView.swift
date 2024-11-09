@@ -40,6 +40,9 @@ struct EditView: View {
             
             Button {
                 showAddOptionSheet.toggle()
+                Task {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                }
             } label: {
                 Text("Add option")
                     .font(.headline)
@@ -52,7 +55,7 @@ struct EditView: View {
                     
             }
             .sheet(isPresented: $showAddOptionSheet) {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 16) {
                     Text("Option name:")
                     TextField("Title", text: $title)
                         .padding()
@@ -76,6 +79,9 @@ struct EditView: View {
                         title = ""
                         image = Image(systemName: "photo")
                         showAddOptionSheet.toggle()
+                        Task {
+                            UINotificationFeedbackGenerator().notificationOccurred(.success)
+                        }
                     } label: {
                         Text("Add")
                             .font(.headline)
@@ -87,7 +93,7 @@ struct EditView: View {
                             .cornerRadius(10)
                     }
                 }
-                .presentationDetents([.fraction(0.45)])
+                .presentationDetents([.fraction(0.50)])
                 .onChange(of: pictureItem) {
                     Task {
                         if let loaded = try? await pictureItem?.loadTransferable(type: Image.self) {
@@ -99,6 +105,7 @@ struct EditView: View {
                 }
                 .padding()
             }
+            .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray))
