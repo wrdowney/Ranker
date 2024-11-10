@@ -61,7 +61,7 @@ struct EditView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         HStack {
-                            Image(systemName: "person")
+                            Image("headshot")
                                 .resizable()
                                 .foregroundColor(.black)
                                 .padding(2)
@@ -96,7 +96,7 @@ struct EditView: View {
                         LazyVStack {
                             ForEach(listModel.elements) { element in
                                 HStack {
-                                    image
+                                    element.image
                                         .resizable()
                                         .scaledToFit()
                                         .cornerRadius(10)
@@ -245,9 +245,11 @@ struct EditView: View {
                                         withAnimation(.spring(response: 0.15, dampingFraction: 0.3, blendDuration: 0.1)) {
                                             addOptionButtonIsAnimating.toggle()
                                         } completion: {
+                                            if title.isEmpty {
+                                                title = "Option \(listModel.elements.count + 1)"
+                                            }
                                             listModel.elements.append(ElementModel(title: title, image: image))
                                             title = ""
-                                            pictureItem = nil
                                             image = Image(systemName: "photo")
                                             showAddOptionSheet.toggle()
                                         }
