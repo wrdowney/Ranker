@@ -164,10 +164,12 @@ struct EditView: View {
                                 .foregroundColor(.black)
                                 .font(.system(size: 16, weight: .bold))
                                 .background(.white)
-                                .opacity(0.5)
                                 .cornerRadius(10)
-                                .border(Color.black, width: 3
-                            
+//                                .shadow(color: Color(.black), radius: 0, x: 5, y: 5)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.black, lineWidth: 3)
+                                )
                             HStack {
                                 PhotosPicker(selection: $pictureItem, matching: .images) {
                                     Text("Choose a picture")
@@ -176,11 +178,19 @@ struct EditView: View {
                                         .padding(.vertical)
                                 }
                                 Spacer()
+                                
                                 image
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 60, height: 60)
                                     .foregroundColor(.black)
+                                    .padding(.horizontal, 6)
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 3)
+                                    )
                             }
                             .padding(.horizontal)
                             
