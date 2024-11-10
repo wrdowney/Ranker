@@ -25,6 +25,9 @@ struct QuizView: View {
                     
             }
         }
+        .ignoresSafeArea(.all)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.backgroundColor)
     }
 }
 
