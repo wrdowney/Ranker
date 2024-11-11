@@ -18,6 +18,7 @@ struct ContentView: View {
     
     @State var selectedTab = 0
     @State private var rotation = 0.0
+    @State private var profilePictureIsAnimating = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -30,11 +31,8 @@ struct ContentView: View {
                         .scaledToFit()
                         .background(.white)
                         .clipShape(Circle())
-                        .shadow(color: Color(.black), radius: 0, x: 3, y: 3)
-                        .overlay(
-                            Circle()
-                                .stroke(Color.black, lineWidth: 3)
-                        )
+                        .dropBorder(shapeType: .circle, isAnimating: $profilePictureIsAnimating)
+                        .springButton(isAnimating: $profilePictureIsAnimating){}
                         .frame(width: 52, height: 52)
                     Spacer()
                     Button {
@@ -81,11 +79,7 @@ struct ContentView: View {
             .frame(width: 190, height: 50)
             .background(.white)
             .cornerRadius(10)
-            .shadow(color: .black, radius: 0, x: 3, y: 3)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.black, lineWidth: 3)
-            )
+            .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10))
             .padding(4)
             
         }

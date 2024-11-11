@@ -92,19 +92,13 @@ struct EditView: View {
                                 .padding(2)
                                 .background(.white)
                                 .cornerRadius(10)
-                                .shadow(color: Color(.black), radius: 0, x: 3, y: 3)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.black, lineWidth: 3)
-                                    )
+                                .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10))
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
-
-                        
                 }
                 
                 // MARK: Floating add button
@@ -114,26 +108,11 @@ struct EditView: View {
                     .padding(12)
                     .background(.white)
                     .clipShape(Circle())
-                    .shadow(color: Color(.black), radius: 0, x: floatingButtonIsAnimating ? 0 : 3, y: floatingButtonIsAnimating ? 0 : 3)
-                    .overlay(
-                        Circle()
-                            .stroke(Color.black, lineWidth: 3)
-                        )
+                    .dropBorder(shapeType: .circle, isAnimating: $floatingButtonIsAnimating)
                     .padding()
-                    .onTapGesture {
-                        Task {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                        }
-                        withAnimation(.spring(response: 0.15, dampingFraction: 0.3, blendDuration: 0.1)) {
-                            floatingButtonIsAnimating.toggle()
-                        } completion: {
-                            withAnimation(.spring(response: 0.15, dampingFraction: 0.3, blendDuration: 0.1)) {
-                                floatingButtonIsAnimating.toggle()
-                                showAddOptionSheet.toggle()
-                            }
-                        }
+                    .springButton(isAnimating: $floatingButtonIsAnimating) {
+                        showAddOptionSheet.toggle()
                     }
-                    .offset(x: floatingButtonIsAnimating ? 3 : 0, y: floatingButtonIsAnimating ? 3 : 0)
                     .sheet(isPresented: $showAddOptionSheet) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Name")
@@ -146,10 +125,7 @@ struct EditView: View {
                                 .font(.system(size: 16, weight: .bold))
                                 .background(.white)
                                 .cornerRadius(10)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.black, lineWidth: 3)
-                                )
+                                .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10))
                             HStack {
                                 PhotosPicker(selection: $pictureItem, matching: .images) {
                                     Text("Choose a picture")
@@ -193,7 +169,7 @@ struct EditView: View {
                                 .background(.white)
                                 .clipShape(Capsule())
                                 .dropBorder(shapeType: .capsule, isAnimating: $addOptionButtonIsAnimating)
-                                .springButton(isAnimating: $addOptionButtonIsAnimating, offset: 3) {
+                                .springButton(isAnimating: $addOptionButtonIsAnimating) {
                                     if title.isEmpty {
                                         title = "Option \(listModel.elements.count + 1)"
                                     }
