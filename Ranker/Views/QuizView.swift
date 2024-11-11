@@ -13,36 +13,38 @@ struct QuizView: View {
     @State private var currentComparison: Int = 0
     
     var body: some View {
-        VStack {
-            if listModel.elements.count < 2 {
-                Text("Add at least two elements in the edit tab to start the quiz.")
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.red)
-                    .padding()
-            } else {
-                Text("Which is better?")
-                    .font(.title)
-                
-                if !pairings.isEmpty || currentComparison < pairings.count - 1 {
-                    HStack {
-                        Text(pairings[currentComparison].0.title)
-                            .font(.title)
-                            .padding()
-                            .onTapGesture {
-                                pairings[currentComparison].2 = 0
-                                currentComparison += 1
-                            }
-                        Text("vs")
-                            .font(.title)
-                            .padding()
-                        Text(pairings[currentComparison].1.title)
-                            .font(.title)
-                            .padding()
-                            .onTapGesture {
-                                pairings[currentComparison].2 = 1
-                                currentComparison += 1
-                            }
+        ZStack {
+            VStack {
+                if listModel.elements.count < 2 {
+                    Text("Add at least two elements in the edit tab to start the quiz.")
+                        .font(.title)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.red)
+                        .padding()
+                } else {
+                    Text("Which is better?")
+                        .font(.title)
+                    
+                    if !pairings.isEmpty || currentComparison < pairings.count - 1 {
+                        HStack {
+                            Text(pairings[currentComparison].0.title)
+                                .font(.title)
+                                .padding()
+                                .onTapGesture {
+                                    pairings[currentComparison].2 = 0
+                                    currentComparison += 1
+                                }
+                            Text("vs")
+                                .font(.title)
+                                .padding()
+                            Text(pairings[currentComparison].1.title)
+                                .font(.title)
+                                .padding()
+                                .onTapGesture {
+                                    pairings[currentComparison].2 = 1
+                                    currentComparison += 1
+                                }
+                        }
                     }
                 }
             }
