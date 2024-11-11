@@ -21,7 +21,7 @@ struct EditView: View {
         Background {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
-                    ItemList(list: mainViewModel.getItems(), deleteAction: mainViewModel.deleteItem)
+                    ItemList(list: mainViewModel.getItems(), deletable: true, deleteAction: mainViewModel.deleteItem)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding()

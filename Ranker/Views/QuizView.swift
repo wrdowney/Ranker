@@ -72,8 +72,7 @@ struct QuizView: View {
                             }
                         }
                     } else {
-                        Text("Quiz complete!")
-                            .font(.title)
+                        ItemList(list: mainViewModel.rankItems()) 
                     }
                     
                 }

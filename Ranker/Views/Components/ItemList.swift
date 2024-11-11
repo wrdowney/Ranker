@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ItemList: View {
     var list: [ItemModel]
+    var deletable: Bool = false
     var deleteAction: (ItemModel) -> Void = { _ in }
     
     var body: some View {
@@ -27,18 +28,20 @@ struct ItemList: View {
                         .foregroundColor(.black)
                     Spacer()
                     
-                    Image(systemName: "trash")
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundColor(.red)
-                        .frame(width: 30, height: 30)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            Task {
-                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    if deletable {
+                        Image(systemName: "trash")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.red)
+                            .frame(width: 30, height: 30)
+                            .padding(.horizontal)
+                            .onTapGesture {
+                                Task {
+                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                }
+                                deleteAction(element)
                             }
-                            deleteAction(element)
-                        }
+                    }
                 }
                 .padding(2)
                 .background(.white)
