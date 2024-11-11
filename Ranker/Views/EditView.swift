@@ -8,7 +8,7 @@ import PhotosUI
 import SwiftUI
 
 struct EditView: View {
-    @EnvironmentObject private var listModel: ListModel
+    @EnvironmentObject private var mainViewModel: MainViewModel
     @State private var title = ""
     @State private var pictureItem: PhotosPickerItem?
     @State private var image: Image = Image(systemName: "photo")
@@ -22,7 +22,7 @@ struct EditView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     LazyVStack {
-                        ForEach(listModel.elements) { element in
+                        ForEach(mainViewModel.getItems()) { element in
                             HStack {
                                 element.image
                                     .resizable()
@@ -46,7 +46,7 @@ struct EditView: View {
                                         Task {
                                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
                                         }
-                                        listModel.elements.removeAll { $0.id == element.id }
+                                        mainViewModel.deleteItem(element)
                                     }
                             }
                             .padding(2)
@@ -131,9 +131,9 @@ struct EditView: View {
                             .dropBorder(shapeType: .capsule, isAnimating: $addOptionButtonIsAnimating)
                             .springButton(isAnimating: $addOptionButtonIsAnimating) {
                                 if title.isEmpty {
-                                    title = "Option \(listModel.elements.count + 1)"
+                                    title = "Option \(mainViewModel.getItems().count + 1)"
                                 }
-                                listModel.elements.append(ElementModel(title: title, image: image))
+                                mainViewModel.addItem(ItemModel(title: title, image: image))
                                 title = ""
                                 image = Image(systemName: "photo")
                                 showAddOptionSheet.toggle()
@@ -151,5 +151,5 @@ struct EditView: View {
 
 #Preview {
     EditView()
-        .environmentObject(ListModel())
+        .environmentObject(MainViewModel())
 }

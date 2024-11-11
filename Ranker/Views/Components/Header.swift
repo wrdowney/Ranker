@@ -40,6 +40,7 @@ struct Header: View {
         }
         .buttonStyle(.plain)
         .padding(.horizontal)
+        .background(Color.backgroundColor)
     }
 }
 

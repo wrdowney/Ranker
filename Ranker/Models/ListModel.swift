@@ -9,8 +9,12 @@ import Foundation
 
 class ListModel: ObservableObject, Equatable {
     static func == (lhs: ListModel, rhs: ListModel) -> Bool {
-        lhs.elements == rhs.elements
+        lhs.items == rhs.items
     }
     
-    @Published var elements: [ElementModel] = []
+    @Published var items: [ItemModel] = []
+    
+    func updateItemScore(item: ItemModel, score: Double) {
+        items = items.map { $0.id == item.id ? item.updateScore(score: score) : $0 }
+    }
 }

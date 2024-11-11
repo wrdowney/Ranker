@@ -12,7 +12,7 @@ struct RankerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(ListModel())
+                .environmentObject(MainViewModel())
         }
     }
 }

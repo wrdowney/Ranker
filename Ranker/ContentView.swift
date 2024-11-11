@@ -22,18 +22,14 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             VStack {
                 Header()
-                Spacer()
+                TabView(selection: $selectedTab) {
+                    EditView()
+                        .tag(0)
+                    QuizView()
+                        .tag(1)
+                }
+                .toolbarBackground(Color.backgroundColor, for: .tabBar)
             }
-            .zIndex(10)
-            
-            TabView(selection: $selectedTab) {
-                EditView()
-                    .tag(0)
-                QuizView()
-                    .tag(1)
-            }
-            .toolbarBackground(Color.backgroundColor, for: .tabBar)
-            
             ZStack {
                 HStack {
                     ForEach(TabItems.allCases, id: \.self) { tab in
@@ -54,6 +50,7 @@ struct ContentView: View {
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.backgroundColor)
     }
 }
 
@@ -106,5 +103,5 @@ enum TabItems: Int, CaseIterable {
 
 #Preview {
     ContentView()
-        .environmentObject(ListModel())
+        .environmentObject(MainViewModel())
 }

@@ -8,70 +8,86 @@
 import SwiftUI
 
 struct QuizView: View {
-    @EnvironmentObject private var listModel: ListModel
-    @State private var pairings: [(ElementModel, ElementModel, Int)] = []
-    @State private var currentComparison: Int = 0
+    @EnvironmentObject var mainViewModel: MainViewModel
+    @State private var isFirstOptionAnimating = false
+    @State private var isSecondOptionAnimating = false
     
     var body: some View {
-        ZStack {
-            VStack {
-                if listModel.elements.count < 2 {
+        Background {
+            VStack(alignment: .center) {
+                Spacer()
+                if mainViewModel.getItems().count < 2 {
                     Text("Add at least two elements in the edit tab to start the quiz.")
                         .font(.title)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.red)
                         .padding()
                 } else {
-                    Text("Which is better?")
-                        .font(.title)
-                    
-                    if !pairings.isEmpty || currentComparison < pairings.count - 1 {
-                        HStack {
-                            Text(pairings[currentComparison].0.title)
+                    if !mainViewModel.isQuizComplete {
+                        VStack {
+                            Text("Pick one option?")
                                 .font(.title)
-                                .padding()
-                                .onTapGesture {
-                                    pairings[currentComparison].2 = 0
-                                    currentComparison += 1
+                            HStack {
+                                VStack {
+                                    mainViewModel.currentPair.first.image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .cornerRadius(10)
+                                        .frame(width: 60, height: 60)
+                                        .foregroundColor(.black)
+                                        .padding(.horizontal, 6)
+                                    Text(mainViewModel.currentPair.first.title)
+                                        .font(.title)
                                 }
-                            Text("vs")
-                                .font(.title)
-                                .padding()
-                            Text(pairings[currentComparison].1.title)
-                                .font(.title)
-                                .padding()
-                                .onTapGesture {
-                                    pairings[currentComparison].2 = 1
-                                    currentComparison += 1
+                                    .padding()
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10))
+                                    .springButton(isAnimating: $isFirstOptionAnimating){
+                                        mainViewModel.chooseItem(mainViewModel.currentPair.first)
+                                    }
+                                
+                                
+                                Text("or")
+                                    .font(.title)
+                                VStack {
+                                    mainViewModel.currentPair.second.image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .cornerRadius(10)
+                                        .frame(width: 60, height: 60)
+                                        .foregroundColor(.black)
+                                        .padding(.horizontal, 6)
+                                    
+                                    Text(mainViewModel.currentPair.second.title)
+                                        .font(.title)
                                 }
+                                    .padding()
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10))
+                                    .springButton(isAnimating: $isSecondOptionAnimating){
+                                        mainViewModel.chooseItem(mainViewModel.currentPair.second)
+                                    }
+                            }
                         }
+                    } else {
+                        Text("Quiz complete!")
+                            .font(.title)
                     }
+                    
                 }
+                Spacer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .ignoresSafeArea(.all)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.backgroundColor)
         .onAppear {
-            generatePairings()
-        }
-    }
-    
-    /// Generates the pairings for the quiz.
-    ///
-    /// Each element in the list will be compared against each other element only once.
-    func generatePairings() {
-        for i in 0..<listModel.elements.count {
-            for j in (i + 1)..<listModel.elements.count {
-                let element1 = listModel.elements[i]
-                let element2 = listModel.elements[j]
-                pairings.append((element1, element2, -1))
-            }
+            mainViewModel.generatePairs()
         }
     }
 }
 
 #Preview {
     QuizView()
-        .environmentObject(ListModel())
+        .environmentObject(MainViewModel())
 }
