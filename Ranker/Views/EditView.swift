@@ -146,7 +146,6 @@ struct EditView: View {
                                 .font(.system(size: 16, weight: .bold))
                                 .background(.white)
                                 .cornerRadius(10)
-//                                .shadow(color: Color(.black), radius: 0, x: 5, y: 5)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
                                         .stroke(Color.black, lineWidth: 3)
@@ -203,30 +202,15 @@ struct EditView: View {
                                     Capsule()
                                         .stroke(Color.black, lineWidth: 3)
                                     )
-                                .onTapGesture {
-                                    Task {
-                                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                .springButton(isAnimating: $addOptionButtonIsAnimating, offset: 3) {
+                                    if title.isEmpty {
+                                        title = "Option \(listModel.elements.count + 1)"
                                     }
-                                    withAnimation(.spring(response: 0.15, dampingFraction: 0.3, blendDuration: 0.1)) {
-                                        addOptionButtonIsAnimating.toggle()
-                                    } completion: {
-                                        withAnimation(.spring(response: 0.15, dampingFraction: 0.3, blendDuration: 0.1)) {
-                                            addOptionButtonIsAnimating.toggle()
-                                        } completion: {
-                                            if title.isEmpty {
-                                                title = "Option \(listModel.elements.count + 1)"
-                                            }
-                                            listModel.elements.append(ElementModel(title: title, image: image))
-                                            title = ""
-                                            image = Image(systemName: "photo")
-                                            showAddOptionSheet.toggle()
-                                        }
-                                    }
+                                    listModel.elements.append(ElementModel(title: title, image: image))
+                                    title = ""
+                                    image = Image(systemName: "photo")
+                                    showAddOptionSheet.toggle()
                                 }
-                                .offset(
-                                    x: addOptionButtonIsAnimating ? 3 : 0,
-                                    y: addOptionButtonIsAnimating ? 3 : 0
-                                )
                         }
                         .padding()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
