@@ -13,11 +13,6 @@ extension Color {
     public static var backgroundColor: Color {
         return Color("background")
     }
-    
-//    public static var label: Color {
-//        return Color("label")
-//    
-//    }
 }
 
 
