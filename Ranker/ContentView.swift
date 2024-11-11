@@ -17,41 +17,11 @@ struct Item: Identifiable, Codable {
 struct ContentView: View {
     
     @State var selectedTab = 0
-    @State private var rotation = 0.0
-    @State private var profilePictureIsAnimating = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
-                HStack {
-                    Image("headshot")
-                        .resizable()
-                        .foregroundColor(.black)
-                        .padding(2)
-                        .scaledToFit()
-                        .background(.white)
-                        .clipShape(Circle())
-                        .dropBorder(shapeType: .circle, isAnimating: $profilePictureIsAnimating)
-                        .springButton(isAnimating: $profilePictureIsAnimating){}
-                        .frame(width: 52, height: 52)
-                    Spacer()
-                    Button {
-                        Task {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                        }
-                        withAnimation(.linear(duration: 0.2)) {
-                            rotation -= 360
-                        }
-                    } label: {
-                        Image(systemName: "gearshape")
-                            .font(.system(size: 28, weight: .bold))
-                            .rotationEffect(Angle(degrees: rotation))
-                            .foregroundStyle(.black)
-                    }
-                    .frame(width: 44, height: 44)
-                }
-                .buttonStyle(.plain)
-                .padding(.horizontal)
+                Header()
                 Spacer()
             }
             .zIndex(10)
