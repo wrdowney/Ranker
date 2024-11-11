@@ -17,9 +17,47 @@ struct Item: Identifiable, Codable {
 struct ContentView: View {
     
     @State var selectedTab = 0
+    @State private var rotation = 0.0
     
     var body: some View {
         ZStack(alignment: .bottom) {
+            VStack {
+                HStack {
+                    Image("headshot")
+                        .resizable()
+                        .foregroundColor(.black)
+                        .padding(2)
+                        .scaledToFit()
+                        .background(.white)
+                        .clipShape(Circle())
+                        .shadow(color: Color(.black), radius: 0, x: 3, y: 3)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.black, lineWidth: 3)
+                        )
+                        .frame(width: 52, height: 52)
+                    Spacer()
+                    Button {
+                        Task {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        }
+                        withAnimation(.linear(duration: 0.5)) {
+                            rotation += 360
+                        }
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .font(.system(size: 28, weight: .bold))
+                            .rotationEffect(Angle(degrees: rotation))
+                            .foregroundStyle(.black)
+                    }
+                    .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.plain)
+                .padding(.horizontal)
+                Spacer()
+            }
+            .zIndex(10)
+            
             TabView(selection: $selectedTab) {
                 EditView()
                     .tag(0)
@@ -51,6 +89,7 @@ struct ContentView: View {
             .padding(4)
             
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
