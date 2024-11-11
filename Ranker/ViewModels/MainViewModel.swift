@@ -56,4 +56,8 @@ class MainViewModel: ObservableObject {
             isQuizComplete = true
         }
     }
+    
+    func rankItems() -> [ItemModel] {
+        return listModel.items.sorted { $0.score > $1.score }
+    }
 }

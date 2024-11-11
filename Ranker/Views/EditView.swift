@@ -21,41 +21,7 @@ struct EditView: View {
         Background {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
-                    LazyVStack {
-                        ForEach(mainViewModel.getItems()) { element in
-                            HStack {
-                                element.image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .cornerRadius(10)
-                                    .frame(width: 60, height: 60)
-                                    .foregroundColor(.black)
-                                    .padding(.horizontal, 6)
-                                Text(element.title)
-                                    .font(.system(size: 20, weight: .semibold))
-                                    .foregroundColor(.black)
-                                Spacer()
-                                
-                                Image(systemName: "trash")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor(.red)
-                                    .frame(width: 30, height: 30)
-                                    .padding(.horizontal)
-                                    .onTapGesture {
-                                        Task {
-                                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                                        }
-                                        mainViewModel.deleteItem(element)
-                                    }
-                            }
-                            .padding(2)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10))
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    ItemList(list: mainViewModel.getItems(), deleteAction: mainViewModel.deleteItem)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding()
