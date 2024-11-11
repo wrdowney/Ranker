@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct ElementModel: Identifiable {
+struct ElementModel: Identifiable, Equatable {
     var id: UUID = UUID()
     let title: String
     let image: Image

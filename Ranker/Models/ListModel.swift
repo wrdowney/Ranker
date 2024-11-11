@@ -7,6 +7,10 @@
 
 import Foundation
 
-class ListModel: ObservableObject {
+class ListModel: ObservableObject, Equatable {
+    static func == (lhs: ListModel, rhs: ListModel) -> Bool {
+        lhs.elements == rhs.elements
+    }
+    
     @Published var elements: [ElementModel] = []
 }

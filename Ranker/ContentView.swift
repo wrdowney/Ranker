@@ -41,8 +41,8 @@ struct ContentView: View {
                         Task {
                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
                         }
-                        withAnimation(.linear(duration: 0.5)) {
-                            rotation += 360
+                        withAnimation(.linear(duration: 0.2)) {
+                            rotation -= 360
                         }
                     } label: {
                         Image(systemName: "gearshape")
@@ -78,7 +78,7 @@ struct ContentView: View {
                 }
                 .padding(6)
             }
-            .frame(width: 200, height: 70)
+            .frame(width: 190, height: 50)
             .background(.white)
             .cornerRadius(10)
             .shadow(color: .black, radius: 0, x: 3, y: 3)
@@ -100,7 +100,7 @@ extension ContentView {
             Image(systemName: imageName)
                 .resizable()
                 .renderingMode(.template)
-                .font(.system(size: 20, weight: .semibold))
+                .font(.system(size: 12, weight: .semibold))
                 .foregroundColor(isActive ? .black : .gray)
                 .frame(width: 25, height: 25)
             if isActive {
@@ -110,7 +110,7 @@ extension ContentView {
             }
             Spacer()
         }
-        .frame(width: isActive ? .infinity : 60, height: 60)
+        .frame(width: isActive ? 110 : 60, height: 40)
         .background(isActive ? .blue.opacity(0.15) : .clear)
         .cornerRadius(20)
 

@@ -32,7 +32,7 @@ struct EditView: View {
                     .rotationEffect(Angle(degrees: 165))
                     .padding(24)
                     .opacity(0.4)
-                    .offset(x: 0, y: -height * 0.7)
+                    .offset(x: 0, y: -height * 0.65)
                 
                 Image(systemName: "triangle")
                     .font(.system(size: 120, weight: .semibold))
@@ -40,7 +40,7 @@ struct EditView: View {
                     .rotationEffect(Angle(degrees: 65))
                     .padding(24)
                     .opacity(0.4)
-                    .offset(x: -width * 0.4, y: -height * 0.5)
+                    .offset(x: -width * 0.4, y: -height * 0.45)
                 
                 Image(systemName: "triangle")
                     .font(.system(size: 120, weight: .semibold))
@@ -48,7 +48,7 @@ struct EditView: View {
                     .rotationEffect(Angle(degrees: 135))
                     .padding(24)
                     .opacity(0.4)
-                    .offset(x: 0, y: -height * 0.3)
+                    .offset(x: 0, y: -height * 0.25)
                 
                 Image(systemName: "triangle")
                     .font(.system(size: 120, weight: .semibold))
@@ -56,11 +56,10 @@ struct EditView: View {
                     .rotationEffect(Angle(degrees: 45))
                     .padding(24)
                     .opacity(0.4)
-                    .offset(x: -width * 0.4, y: -height * 0.1)
+                    .offset(x: -width * 0.4, y: -height * 0.05)
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        
                         
                         LazyVStack {
                             ForEach(listModel.elements) { element in
