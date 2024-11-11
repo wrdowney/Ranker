@@ -19,13 +19,7 @@ struct EditView: View {
     
     var body: some View {
         Background {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack {
-                    ItemList(list: mainViewModel.getItems(), deletable: true, deleteAction: mainViewModel.deleteItem)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding()
-            }
+            ItemList(list: mainViewModel.items, deletable: true, deleteAction: mainViewModel.deleteItem)
             
             // MARK: Floating add button
             Image(systemName: "plus")
@@ -86,7 +80,7 @@ struct EditView: View {
                                 
                             }
                         }
-                        
+                        Spacer()
                         Text("Add")
                             .frame(maxWidth: .infinity)
                             .font(.system(size: 20, weight: .bold))
@@ -97,7 +91,7 @@ struct EditView: View {
                             .dropBorder(shapeType: .capsule, isAnimating: $addOptionButtonIsAnimating)
                             .springButton(isAnimating: $addOptionButtonIsAnimating) {
                                 if title.isEmpty {
-                                    title = "Option \(mainViewModel.getItems().count + 1)"
+                                    title = "Option \(mainViewModel.items.count + 1)"
                                 }
                                 mainViewModel.addItem(ItemModel(title: title, image: image))
                                 title = ""
@@ -108,7 +102,7 @@ struct EditView: View {
                     .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.backgroundColor)
-                    .presentationDetents([.fraction(0.4)])
+                    .presentationDetents([.fraction(0.35)])
                     
                 }
         }

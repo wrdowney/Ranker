@@ -10,38 +10,30 @@ import SwiftUI
 class MainViewModel: ObservableObject {
     @Published var currentPair: PairModel = PairModel()
     @Published var isQuizComplete: Bool = false
-    private var listModel: ListModel
+    @Published var items: [ItemModel] = []
     private var pairings: [PairModel] = []
     private var currentIndex: Int = 0
     
-    init() {
-        listModel = ListModel()
-    }
-    
     func addItem(_ item: ItemModel) {
-        listModel.items.append(item)
+        items.append(item)
     }
     
     func deleteItem(_ item: ItemModel) {
-        listModel.items.removeAll { $0.id == item.id }
-    }
-    
-    func getItems() -> [ItemModel] {
-        return listModel.items
+        items.removeAll { $0.id == item.id }
     }
     
     func chooseItem(_ item: ItemModel) {
         let pair = currentPair
         let loser = pair.first.id == item.id ? pair.second : pair.first
         let newScore = item.score + (1 + (loser.score / 2))
-        listModel.updateItemScore(item: item, score: newScore)
+        items = items.map { $0.id == item.id ? item.updateScore(score: newScore) : $0 }
         nextPair()
     }
     
     func generatePairs() {
-        for i in 0..<listModel.items.count {
-            for j in i+1..<listModel.items.count {
-                pairings.append(PairModel(first: listModel.items[i], second: listModel.items[j]))
+        for i in 0..<items.count {
+            for j in i+1..<items.count {
+                pairings.append(PairModel(first: items[i], second: items[j]))
             }
         }
         pairings.shuffle()
@@ -58,6 +50,6 @@ class MainViewModel: ObservableObject {
     }
     
     func rankItems() -> [ItemModel] {
-        return listModel.items.sorted { $0.score > $1.score }
+        return items.sorted { $0.score > $1.score }
     }
 }

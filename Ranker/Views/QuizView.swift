@@ -16,7 +16,7 @@ struct QuizView: View {
         Background {
             VStack(alignment: .center) {
                 Spacer()
-                if mainViewModel.getItems().count < 2 {
+                if mainViewModel.items.count < 2 {
                     Text("Add at least two elements in the edit tab to start the quiz.")
                         .font(.title)
                         .multilineTextAlignment(.center)
@@ -27,6 +27,7 @@ struct QuizView: View {
                         VStack {
                             Text("Pick one option?")
                                 .font(.title)
+                                .foregroundStyle(.black)
                             HStack {
                                 VStack {
                                     mainViewModel.currentPair.first.image
@@ -38,11 +39,12 @@ struct QuizView: View {
                                         .padding(.horizontal, 6)
                                     Text(mainViewModel.currentPair.first.title)
                                         .font(.title)
+                                        .foregroundStyle(.black)
                                 }
                                     .padding()
                                     .background(.white)
                                     .cornerRadius(10)
-                                    .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10))
+                                    .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10), isAnimating: $isFirstOptionAnimating)
                                     .springButton(isAnimating: $isFirstOptionAnimating){
                                         mainViewModel.chooseItem(mainViewModel.currentPair.first)
                                     }
@@ -50,6 +52,7 @@ struct QuizView: View {
                                 
                                 Text("or")
                                     .font(.title)
+                                    .foregroundStyle(.black)
                                 VStack {
                                     mainViewModel.currentPair.second.image
                                         .resizable()
@@ -61,18 +64,29 @@ struct QuizView: View {
                                     
                                     Text(mainViewModel.currentPair.second.title)
                                         .font(.title)
+                                        .foregroundStyle(.black)
                                 }
                                     .padding()
                                     .background(.white)
                                     .cornerRadius(10)
-                                    .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10))
+                                    .dropBorder(shapeType: .roundedRectangle(cornerRadius: 10), isAnimating: $isSecondOptionAnimating)
                                     .springButton(isAnimating: $isSecondOptionAnimating){
                                         mainViewModel.chooseItem(mainViewModel.currentPair.second)
                                     }
                             }
                         }
                     } else {
-                        ItemList(list: mainViewModel.rankItems()) 
+                        VStack(alignment: .leading) {
+                            Text("Quiz complete!")
+                                .font(.title)
+                                .foregroundStyle(.black)
+                            Text("Here's your ranking:")
+                                .font(.title)
+                                .foregroundStyle(.black)
+                            ItemList(list: mainViewModel.rankItems())
+                            Spacer()
+                        }
+                        .padding()
                     }
                     
                 }
