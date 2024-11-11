@@ -192,16 +192,7 @@ struct EditView: View {
                                 .padding()
                                 .background(.white)
                                 .clipShape(Capsule())
-                                .shadow(
-                                    color: Color(.black),
-                                    radius: 0,
-                                    x: addOptionButtonIsAnimating ? 0 : 3,
-                                    y: addOptionButtonIsAnimating ? 0 : 3
-                                )
-                                .overlay(
-                                    Capsule()
-                                        .stroke(Color.black, lineWidth: 3)
-                                    )
+                                .dropBorder(shapeType: .capsule, isAnimating: $addOptionButtonIsAnimating)
                                 .springButton(isAnimating: $addOptionButtonIsAnimating, offset: 3) {
                                     if title.isEmpty {
                                         title = "Option \(listModel.elements.count + 1)"

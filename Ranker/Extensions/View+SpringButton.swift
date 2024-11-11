@@ -40,7 +40,7 @@ struct SpringButton: ViewModifier {
 
 extension View {
     func springButton(
-        isAnimating: Binding<Bool> = .constant(true),
+        isAnimating: Binding<Bool> = .constant(false),
         offset: Int = 0,
         handler: @escaping Handler
     ) -> some View {
